@@ -1,0 +1,36 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %}Update Coupon{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card col-md-5 shadow-lg my-3 mx-auto">
+        <div calss="card-body">
+            <div class="row">
+                <a class="col-md-5 btn btn-outline-info form-control my-3 mx-auto" href="{% url 'co' %}">Return</a>
+                <a class="col-md-5 btn btn-outline-danger form-control my-3 mx-auto" href="{% url 'dc' coupid %}">Delete this Coupon?</a>
+            </div>
+        </div>
+    </div>
+	<div class="card col-md-5 shadow-lg my-3 mx-auto">
+        <div class="card-body">
+            <h4>Update Coupon</h4>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for i in ucform %}
+                    {{i.label_tag}} {{i}} 
+                    <p class="text-danger" style="font-size:13px;margin:0px;padding:0px">{{i.errors|striptags}}</p>
+                {% endfor %}
+                <img src="{% static coupdesc %}" class="img-thumbnail mx-auto d-block">
+                <div class="row">
+                    <div class="col">
+                        <input type="reset" value="Clear" class="btn btn-outline-warning form-control">
+                    </div>
+                    <div class="col">
+                        <input type="submit" value="Update" class="btn btn-outline-success form-control">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

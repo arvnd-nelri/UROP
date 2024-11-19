@@ -1,0 +1,37 @@
+{% extends 'html/base.html' %}
+{% block title %}Payment{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card col-md-5 mx-auto shadow-lg">
+        <div class="card-body">
+            <a href="{% url 'hm' %}" class="btn btn-outline-info form-controls">Return</a>
+			{% if n == 0 %}
+            <form method="post">
+                {% csrf_token %}
+                <h3>Available Balance: {{request.user.cash}}</h3>
+                <h6>Enter Amount to be added into Wallet</h6>
+                <input type="text" name="amount" placeholder="Enter Amount" class="form-control my-2 text-centre border-dark">
+                <input type="submit" class="form-control btn btn-outline-success" value="Confirm Payment">
+            </form>
+            {% elif n == 1 %}
+                <form class="text-center border border-light p-5" action="success" method="POST">
+                    {% csrf_token %}
+                    <p class="h3 mb-5"><i class="fas fa-coffee"></i>Add {{ amt|slice:":-2" }} rupees to your Wallet</p>
+                    <!-- RAZORPAY INTEGRATION HERE -->
+                    <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="rzp_test_nODbGBtvMlQEzs"
+                    data-amount= {{amt}}
+                    data-currency="INR" 
+                    data-order_id="{{payment.id}}" 
+                    data-buttontext="Pay with Razorpay"
+                    data-name="Coup Swap" 
+                    data-description="Coupon Access Payment"
+                    data-image="https://example.com/your_logo.jpg" 
+                    data-prefill.name="{{request.user.username}}" 
+                    data-prefill.email="{{request.user.email}}"
+                    data-theme.color="#F37254"></script>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

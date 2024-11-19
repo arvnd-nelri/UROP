@@ -1,0 +1,75 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <div class="container mt-4">
+        {% if messages %}
+            {% for i in messages %}
+                <div class="alert alert-{{i.tags}} alert-dismissible my-2 col-md-2 text-right">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    {{i}}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="row">
+            <!-- <div class="card col-md-3 ">
+                <div class="card-body">
+                    <h4>Find by Categories</h4>
+                    <a href="#" class="text-danger">Beauty</a>
+                </div>
+            </div> -->
+            <div class="col">
+                <div class="jumbotron">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <h4 class="text-left font-wight-bold">Coupons</h4>
+                        </div>
+                        <div class="col-md">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <input type="text" name="Company" class="col-md-10 form-control" placeholder="Enter BRAND NAME to Search">
+                                    <input type="submit" value="🔍" class="col-md-1 btn btn-secondary form-control">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row mb-5 mt-3">
+                    {% for i in ccf %}
+                        {% if i.st_id != request.user.id %}
+                        <div class="col-md-6 col-lg-4 mb-2 mt-1">
+                            <div class="card shadow-lg h-100 ">
+                                <img src="static/images/companies/{{i.Company}}.png" class="card-img-top rounded-top" alt="{{i.Company}}" height="130px">
+                                <div class="card-body">
+                                    <h3 class="h5 card-title mt-3 text-center">{{i.Title}}</h3>
+                                    <p class="card-text text-center">Valid Till: {{i.ExpDate}}</p>
+                                    <a href="{% if not user.is_authenticated %}{% url 'ln' %}{% else %}{% url 'cd' i.id %}{% endif %}" class="btn btn-outline-success form-control my-2">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                            <!-- <div class="card shadow-lg my-2">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <img src="static/images/companies/{{i.Company}}.png" class="rounded float-center"  height="60px" alt="{{c.Company}}">
+                                        </div>
+                                        <div class="col" style="align-self:center">
+                                            <h5>{{i.Title}}</h5>
+                                        </div>
+                                        <div class="col" style="align-self:center">
+                                            <h6>Valid Till: {{i.ExpDate}}</h6>
+                                        </div>
+                                        <div class="col">
+                                            <a href="{% if not user.is_authenticated %}{% url 'ln' %}{% else %}{% url 'cd' i.id %}{% endif %}" class="btn btn-outline-success form-control my-2">View Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

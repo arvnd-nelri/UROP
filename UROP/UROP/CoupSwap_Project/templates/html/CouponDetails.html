@@ -1,0 +1,59 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %}Coupon Details{% endblock %}
+{% block content %}
+<div class="container mt-4">
+	<div class="card col-md-5 mx-auto shadow-lg">
+		<div class="card-body">
+            <a href="{% url 'hm' %}" class="btn btn-outline-info form-controls">Return</a>
+			<form method="post">
+                {% csrf_token %}
+                <h4>Coupon Details</h4>
+                <img src="{% static imgpth %}" class="mx-auto d-block border border-dark" >
+                        <div class="row my-2">
+                            <div class="col">
+                                <table class="table table-responsive">
+                                    <tr>
+                                        <td class="font-weight-bold">Platform</td>
+                                        <td>{{det.PfName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Title</td>
+                                        <td>{{det.Title}}</td>
+                                    </tr>
+                                    <tr></tr>
+                                        <td class="font-weight-bold">Company</td>
+                                        <td>{{det.Company}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Expiry Date</td>
+                                        <td>{{det.ExpDate}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Demanded Amount</td>
+                                        <td>{{det.demandedamount}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <img src="{% static coupdesc %}" alt="No Description" class="img-thumbnail mx-auto d-block">
+                        {% if det.st_id == request.user.id %}
+                            <p class="text-info">This coupon was upoaded by You</p>
+                        {% elif det.requestedby == request.user.id %}
+                            <p class="text-warning">You have requested for this coupon</p>
+                            {% if det.Status == "Expired" %}
+                                <p class="text-danger">Coupon Expired</p>
+                            {% endif %}
+                        {% elif det.usedby == request.user.id %}
+                            <p class="text-warning">You have used this coupon</p>
+                        {% elif det.demandedamount < request.user.cash and det.Status == "Uploaded" %}
+                            <input type="submit" value="Request" class="btn btn-outline-success form-control">
+                        {% else %}
+                            <p class="text-danger">There is no enough cash in your wallet to Request This coupon</p>
+                            <a href="{% url 'pa' %}" class="btn btn-outline-warning form-controls">Add Money</a>
+                        {% endif %}
+            </form>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %}Delete Coupon{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card col-md-5 mx-auto shadow-lg my-3">
+        <div calss="card-body">
+            <div class="row">
+                <a class="col-md-5 btn btn-outline-info form-control my-3 mx-auto" href="{% url 'co' %}">Return</a>
+                <a class="col-md-5 btn btn-outline-success form-control my-3 mx-auto" href="{% url 'uc' det.id %}">Update this Coupon?</a>
+            </div>
+        </div>
+    </div>
+	<div class="card col-md-5 mx-auto shadow-lg">
+		<div class="card-body">
+			<form method="post">
+                {% csrf_token %}
+                <h3 class="text-center">Delete Coupon</h3>
+                        <img src="{% static compimg %}" class="img-thumbnail mx-auto d-block" >
+                        <div class="row my-2">
+                            <div class="col">
+                                <table class="table table-responsive">
+                                    <tr>
+                                        <td class="font-weight-bold">Platform</td>
+                                        <td>{{det.PfName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Title</td>
+                                        <td>{{det.Title}}</td>
+                                    </tr>
+                                    <tr></tr>
+                                        <td class="font-weight-bold">Company</td>
+                                        <td>{{det.Company}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Expiry Date</td>
+                                        <td>{{det.ExpDate}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Code</td>
+                                        <td>{{det.Code}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Demanded Amount</td>
+                                        <td>{{det.demandedamount}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <img src="{% static coupdesc %}" class="img-thumbnail mx-auto d-block">
+                        <input type="submit" value="Delete" class="btn btn-outline-danger form-control">
+            </form>
+		</div>
+	</div>
+</div>
+{% endblock %}

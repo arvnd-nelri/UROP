@@ -1,0 +1,76 @@
+{% extends 'html/base.html' %}
+{% block title %}Add Coupon{% endblock %}
+{% block content %}
+<div class="container-fluid mt-4">
+    {% if messages %}
+        {% for i in messages %}
+            <div class="alert alert-{{i.tags}} alert-dismissible my-2 col-md-2 text-right">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{i}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="row mx-2">
+        <div class="col">
+            <div class="row">
+                <div class="card col-md mx-2 h-100 shadow-lg">
+                    <div class="card-body">
+                        <div class="row">
+                            <h4 class="col mb-2">Your Coupons</h4>
+                            <a class="col-md-4 btn btn-outline-success mb-2" href="{% url 'ac' %}">Add Coupon</a>
+                        </div>
+                        <table class="table">
+                            <tr class="bg-dark text-light">
+                                <th>Platform</th>
+                                <th>Expiry Date</th>
+                                <th>Company</th>
+                                <th>Title</th>
+                                <th>Code</th>
+                                <th>Demanded Amount</th>
+                                <th>Status</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                            {% if yrcpn.count == 0 %}
+                            <h6 class="text-center text-dark font-weight-bold">No coupons found!</h6>
+                            {% else %}
+                                {% for i in yrcpn %}
+                                <tr>
+                                    <td>{{i.PfName}}</td>
+                                    <td>{{i.ExpDate}}</td>
+                                    <td>{{i.Company}}</td>
+                                    <td>{{i.Title}}</td>
+                                    <td>{{i.Code}}</td>
+                                    <td>{{i.demandedamount}}</td>
+                                    {% if i.Status == "Uploaded" %}
+                                    <td><p class="badge badge-info">{{i.Status}}</p></td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col">
+                                                <a href="{% url 'uc' i.id %}" class="btn btn-outline-info form-controls">Edit</a>
+                                            </div>
+                                            <div class="col">
+                                                <a href="{% url 'dc' i.id %}" class="btn btn-outline-danger form-controls">Delete</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    {% elif i.Status == "Requested" %}
+                                    <td><p class="badge badge-warning">{{i.Status}}</p></td>
+                                    <td><a href="{% url 'vr' i.id %}" class="btn btn-outline-warning form-controls">View Request</a></td>
+                                    {% elif i.Status == "Used" %}
+                                    <td><p class="badge badge-success">{{i.Status}}</p></td>
+                                    <td></td>
+                                    {% elif i.Status == "Expired" %}
+                                    <td><p class="badge badge-danger">{{i.Status}}</p></td>
+                                    <td><a href="{% url 'dc' i.id %}" class="btn btn-outline-danger form-controls">Delete</a></td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

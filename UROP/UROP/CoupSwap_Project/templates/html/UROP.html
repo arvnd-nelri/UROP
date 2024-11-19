@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Card Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        #floating-card-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        #add-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button id="add-button">Add</button>
+    <div id="floating-card-container">
+        <span id="close-button">&times;</span>
+        <h2>Floating Card</h2>
+        <p>This is a floating card that can be closed by clicking the close button or pressing the "Esc" key.</p>
+    </div>
+
+    <script>
+        const addButton = document.getElementById('add-button');
+        const floatingCard = document.getElementById('floating-card-container');
+        const closeButton = document.getElementById('close-button');
+
+        addButton.addEventListener('click', () => {
+            floatingCard.style.display = 'block';
+        });
+
+        closeButton.addEventListener('click', () => {
+            floatingCard.style.display = 'none';
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                floatingCard.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

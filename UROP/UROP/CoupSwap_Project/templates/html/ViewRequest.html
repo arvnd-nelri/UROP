@@ -1,0 +1,66 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %}View Request{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card col-md-5 mx-auto shadow-lg">
+	<div class="card-body">
+        <a href="{% url 'ac' %}" class="btn btn-outline-info form-controls">Return</a>
+        <form method="post">
+            {% csrf_token %}
+            <h4>View Request</h4>
+            <img src="{% static imgpth %}" class="mx-auto d-block border border-dark" >
+                    <div class="row my-2">
+                        <div class="col">
+                            <table class="table table-responsive">
+                                <tr>
+                                    <td class="font-weight-bold">Platform</td>
+                                    <td>{{det.PfName}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold">Title</td>
+                                    <td>{{det.Title}}</td>
+                                </tr>
+                                <tr></tr>
+                                    <td class="font-weight-bold">Company</td>
+                                    <td>{{det.Company}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold">Expiry Date</td>
+                                    <td>{{det.ExpDate}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold">Code</td>
+                                    <td>{{det.Code}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold">Demanded Amount</td>
+                                    <td>{{det.demandedamount}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center-dark">Requested By</th>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold">Username</td>
+                                    <td>{{rd.username}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-weight-bold">Email</td>
+                                    <td>{{rd.email}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="submit" name="Decline" value="Decline" class="btn btn-outline-danger form-control">
+                        </div>
+                        <div class="col">
+                            <input type="submit" name="Accept" value="Accept" class="btn btn-outline-success form-control">
+                        </div>
+                    </div>
+        </form>
+    </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'html/base.html' %}
+{% block title %}History{% endblock %}
+{% block content %}
+<div class="container-fluid mt-4">
+	<div class="row">
+        {% if i == 1 %}
+        <div class="card col-md-6 shadow-lg mx-auto my-2 h-100">
+            <div class="card-body">
+                <h4 class="text-center">Transaction History</h4>
+                <table class="table">
+                    <tr class="bg-dark text-light">
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                    {% for t in transactions %}
+                        <tr>
+                            {% if t.debitfrom_id == request.user.id %}
+                                <td>{{t.TranDate}}</td>
+                                <td>{{t.amount}}</td>
+                                {% if t.type == "Deposit" %}
+                                    <td>Amount added to your Wallet!</td>
+                                    <td></td>
+                                {% else %}
+                                    <td>You have used a Coupon</td>
+                                    <td> <a href="{% url 'cd' t.coupondet_id %}" class="btn btn-outline-warning form-controls">View Details</a> </td>
+                                {% endif %}
+                            {% elif t.creditto_id == request.user.id %}
+                                <td>{{t.TranDate}}</td>
+                                <td>{{t.amount}}</td>
+                                <td>Your Coupon has been used</td>
+                                <td> <a href="{% url 'cd' t.coupondet_id %}" class="btn btn-outline-warning form-controls">View Details</a> </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        {% elif i == 2 %}
+        <div class="card col-md-6 shadow-lg mx-auto my-2 h-100">
+            <div class="card-body">
+                <h4 class="text-center">Used Coupons</h4>
+                <table class="table">
+                    <tr class="bg-dark text-light">
+                        <th>Company</th>
+                        <th>Expiry Date</th>
+                        <th>Title</th>
+                        <th></th>
+                    </tr>
+                    {% if usecpn.count == 0 %}
+                        <h6 class="text-center text-dark font-weight-bold">No coupons found!</h6>
+                    {% else %}
+                        {% for u in usecpn %}
+                            <tr>
+                                <td>{{u.Company}}</td>
+                                <td>{{u.ExpDate}}</td>
+                                <td>{{u.Title}}</td>
+                                <td>
+                                    <a href="{% url 'cd' u.id %}" class="btn btn-outline-warning form-controls">Details</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+        {% elif i == 3 %}
+        <div class="card col-md-6 shadow-lg mx-auto my-2 h-100">
+            <div class="card-body">
+                <div class="row">
+                    <h4 class="col text-center">Requested Coupons</h4>
+                    <a href="{% url 'hm' %}" class="btn btn-outline-info form-controls">Find Coupons</a>
+                </div>
+                <table class="table">
+                    <tr class="bg-dark text-light">
+                        <th>Company</th>
+                        <th>Expiry Date</th>
+                        <th>Title</th>
+                        <th></th>
+                    </tr>
+                    {% if reqcpn.count == 0 %}
+                        <h6 class="text-center text-dark font-weight-bold">No coupons found!</h6>
+                    {% else %}
+                        {% for r in reqcpn %}
+                            <tr>
+                                <td>{{r.Company}}</td>
+                                <td>{{r.ExpDate}}</td>
+                                <td>{% if r.Status == "Expired" %}<p class="text-danger">Coupon Expired Request Cancelled</p>{% else %}{{r.Title}}{% endif %}</td>
+                                <td>
+                                    <a href="{% url 'cd' r.id %}" class="btn btn-outline-warning form-controls">Details</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
